@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StartView: View {
     @Environment(MovieFlickViewModel.self) var vm
+    @State var appConfig = AppConfig.shared
     
     var body: some View {
         VStack {
@@ -22,6 +23,13 @@ struct StartView: View {
                 vm.viewState = .playersView
             }
             Spacer()
+            Picker("Env", selection: $appConfig.selectedEnvironment) {
+                ForEach(Env.allCases) { env in
+                    Text(env.rawValue).tag(env)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
             VStack {
                 Text("This product uses the TMDB API but is not endorsed or certified by TMDB.")
                     .foregroundStyle(.gray)

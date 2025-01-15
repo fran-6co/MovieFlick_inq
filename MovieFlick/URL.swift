@@ -11,9 +11,26 @@ import Foundation
 let mainURL = URL(string: "https://api.themoviedb.org/3/discover")!
 let imageBaseUrl = URL(string: "https://image.tmdb.org/t/p/w600_and_h900_bestv2")!
 
+let testURL = URL(string: "test.com")!
+
+enum Env: String, CaseIterable, Identifiable {
+    case production = "Production"
+    case preproduction = "Preproduction"
+    
+    var id: Self {self}
+    var baseURL: URL {
+        switch self {
+            case .production:
+                return mainURL
+            case .preproduction:
+                return testURL
+        }
+    }
+}
+
 extension URL {
-    static let movieURL = mainURL.appending(path: "movie")
-    static let tvURL = mainURL.appending(path: "tv")
+    static let movieURL = AppConfig.shared.selectedEnvironment.baseURL.appending(path: "movie")
+    static let tvURL = AppConfig.shared.selectedEnvironment.baseURL.appending(path: "tv")
 
     static func finalURLMovie(
         isAdult: Bool? = nil,

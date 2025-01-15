@@ -12,6 +12,8 @@ final class AppConfig {
     
     var APIKey: String?
     
+    var selectedEnvironment: Env = .production 
+    
     init () {
         try? getApiKey()
     }
